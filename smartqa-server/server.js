@@ -34,10 +34,23 @@ const io = new Server(server, {
     }
 });
 
+// Gets executed on every new connection
+//If the new connection is for custom event "join-room"
+// to join a room, we add it to the pool of clients sharing same roomCode.
 io.on("connection", (socket) => {
-    console.log("New client connection: ",socket.io);
-    
-}) 
+    console.log("New client connection: ",socket.id);
+
+    socket.on("join-room", (roomCode) => {
+        socket.join(roomCode);
+        console.log(`User joined room: ${roomCode}`);
+    });
+
+    socket.on("disconnect",() => {
+        console.log("Client disconnected", socket.id);
+    })
+});
+
+app.set("io", io);
 
 app.use('/room', roomRoutes);
 
