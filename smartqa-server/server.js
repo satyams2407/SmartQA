@@ -56,7 +56,7 @@ app.use('/room', roomRoutes);
 
 // Start the server
 const PORT = process.env.PORT;
-app.listen(PORT, (error) => {
+server.listen(PORT, (error) => {
     if (error) {
         console.log('Server not starting due to: ', error);
     } else {

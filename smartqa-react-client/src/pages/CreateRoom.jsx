@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { serverEndpoint } from "../config/app.config";
+import { serverEndpoint } from "../config/appConfig";
 import { useNavigate } from "react-router-dom";
 
 const CreateRoom = () => {
@@ -27,13 +27,14 @@ const CreateRoom = () => {
                 const response = await axios.post(
                     `${serverEndpoint}/room`,
                     {
-                        createBy: name,
+                        createdBy: name,
                     },
                     {
                         withCredentials: true,
                     }
                 );
                 const roomCode = response.data.roomCode;
+                localStorage.setItem("createBy", name);
                 navigate(`/room/${roomCode}`);
             } catch (error) {
                 console.log(error);
