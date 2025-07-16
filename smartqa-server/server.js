@@ -37,7 +37,7 @@ const io = new Server(server, {
 // Gets executed on every new connection
 //If the new connection is for custom event "join-room"
 // to join a room, we add it to the pool of clients sharing same roomCode.
-io.on("connection", (socket) => {
+io.on("connection", (socket) => { //connection is predefined
     console.log("New client connection: ",socket.id);
 
     socket.on("join-room", (roomCode) => {
@@ -45,10 +45,10 @@ io.on("connection", (socket) => {
         console.log(`User joined room: ${roomCode}`);
     });
 
-    socket.on("disconnect",() => {
+    socket.on("disconnect",() => { // disconnect is predefined 
         console.log("Client disconnected", socket.id);
     })
-});
+});  
 
 app.set("io", io);
 
