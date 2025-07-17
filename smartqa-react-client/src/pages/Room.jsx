@@ -12,6 +12,19 @@ const Room = () => {
   const [errors, setErrors] = useState({});
   const [room, setRoom] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const [summaries, setSummaries] = useState([]);
+
+  const fetchSummary = async () => {
+    try{
+      const response = await axios.get(`${serverEndpoint}/room/${code}/question/summary`,{
+        withCredentials:true
+      });
+      setSummaries(response.data || []);
+    } catch(error){
+      console.log(error);
+      setErrors({message : 'Unable to fetch top questions, please try again'});
+    }
+  }
 
   const fetchRoom = async() => {
     try{
@@ -83,6 +96,24 @@ const Room = () => {
   return (
     <div className='container py-5'>
         <h2>Room {code} created by {room.createdBy}</h2>
+        <button className='btn btn-outline-success' onClick={fetchSummary}>
+          Get Top Questions
+        </button>
+        <hr></hr>
+        {
+          summaries.length>0 && (
+            <div className='mt-2'>
+              <h5>Top Questions Asked</h5>
+              <ul>
+                {
+                  summaries.map((sum,i)=>(
+                    <li key={i}> {sum}</li>
+                  ))
+                }
+              </ul>
+            </div>
+          )
+        }
         <div className='row'>
           <div className='col-auto'>
             <ul className='list-group'>
